@@ -84,6 +84,7 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 | **Name** | **Description** |
 | --- | --- |
 | <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.isOwnedResource">isOwnedResource</a></code> | Returns true if the construct was created by CDK, and false otherwise. |
 | <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
 
 ---
@@ -103,6 +104,22 @@ Checks if `x` is a construct.
 - *Type:* any
 
 Any object.
+
+---
+
+##### `isOwnedResource` <a name="isOwnedResource" id="awscdk-dynamodb-global-tables.GlobalTable.isOwnedResource"></a>
+
+```typescript
+import { GlobalTable } from 'awscdk-dynamodb-global-tables'
+
+GlobalTable.isOwnedResource(construct: IConstruct)
+```
+
+Returns true if the construct was created by CDK, and false otherwise.
+
+###### `construct`<sup>Required</sup> <a name="construct" id="awscdk-dynamodb-global-tables.GlobalTable.isOwnedResource.parameter.construct"></a>
+
+- *Type:* constructs.IConstruct
 
 ---
 
@@ -180,8 +197,6 @@ The stack in which this resource is defined.
 
 ### GlobalTableProps <a name="GlobalTableProps" id="awscdk-dynamodb-global-tables.GlobalTableProps"></a>
 
-Implement the {@link IExampleResource.onEvent} method. Notice that we change 'options' from an optional argument to an argument with a default value - that's a common trick in the CDK (you're not allowed to have default values for arguments in interface methods in TypeScript), as it simplifies the implementation code (less branching).
-
 #### Initializer <a name="Initializer" id="awscdk-dynamodb-global-tables.GlobalTableProps.Initializer"></a>
 
 ```typescript
@@ -195,6 +210,7 @@ const globalTableProps: GlobalTableProps = { ... }
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#awscdk-dynamodb-global-tables.GlobalTableProps.property.partitionKey">partitionKey</a></code> | <code>aws-cdk-lib.aws_dynamodb.Attribute</code> | *No description.* |
+| <code><a href="#awscdk-dynamodb-global-tables.GlobalTableProps.property.role">role</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | *No description.* |
 
 ---
 
@@ -205,6 +221,16 @@ public readonly partitionKey: Attribute;
 ```
 
 - *Type:* aws-cdk-lib.aws_dynamodb.Attribute
+
+---
+
+##### `role`<sup>Optional</sup> <a name="role" id="awscdk-dynamodb-global-tables.GlobalTableProps.property.role"></a>
+
+```typescript
+public readonly role: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
 
 ---
 

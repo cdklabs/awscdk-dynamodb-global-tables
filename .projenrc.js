@@ -2,7 +2,7 @@ const { awscdk } = require('projen');
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Tianyi-W',
   authorAddress: 'tianyiwu@amazon.com',
-  cdkVersion: '2.1.0',
+  cdkVersion: '2.35.0',
   defaultReleaseBranch: 'main',
   name: 'awscdk-dynamodb-global-tables',
   repositoryUrl: 'https://github.com/cdklabs/awscdk-dynamodb-global-tables.git',

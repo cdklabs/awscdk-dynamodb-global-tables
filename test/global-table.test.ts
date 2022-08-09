@@ -1,16 +1,15 @@
-
 import { StackProps, aws_dynamodb } from 'aws-cdk-lib';
 import * as cdk from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import * as ddb from 'aws-cdk-lib/aws-dynamodb';
-import { GlobalTable } from '../src/GlobalTable';
+import { GlobalTable } from '../src/global-table';
 
-// create cdk stack with specific region
-// create a globaltable within the stack
-// use assertioin lib validate region of the replica, send a pr.
-test('hello', () => {
+test('global table region is matched to stack region, when unspecified', () => {
+  const region = 'us-east-1';
   const app = new cdk.App();
-  const newstack = new cdk.Stack(app);
+  const newstack = new cdk.Stack(app, 'id', {
+    env: { region: region },
+  });
   new GlobalTable(newstack, 'hello', {
     partitionKey:
     {
@@ -22,6 +21,12 @@ test('hello', () => {
   // testing purpose
   const template = Template.fromStack(newstack);
   template.resourceCountIs('AWS::DynamoDB::GlobalTable', 1);
+  template.hasResourceProperties('AWS::DynamoDB::GlobalTable', {
+    Replicas: [{
+      // verify with the stack region
+      Region: newstack.region,
+    }],
+  });
 
 });
 

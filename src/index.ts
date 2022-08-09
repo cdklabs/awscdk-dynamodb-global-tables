@@ -1,2 +1,2 @@
-export * from './GlobalTable';
+export * from './global-table';
 
