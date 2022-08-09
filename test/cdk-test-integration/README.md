@@ -1,6 +1,7 @@
 # Welcome to your CDK TypeScript project
 
-This is a blank project for CDK development with TypeScript.
+This is a awscdk-dynamodb-global-tables project for CDK development with TypeScript.
+The purpose of this project is to add L2 support to the AWS CDK Construct Library for DynamoDB Global Tables, which will include easy encryption configuration for GlobalTables.
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
