@@ -1,4 +1,3 @@
-import { StackProps, aws_dynamodb } from 'aws-cdk-lib';
 import * as cdk from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import * as ddb from 'aws-cdk-lib/aws-dynamodb';
@@ -11,8 +10,7 @@ test('Create global table with partition key and default properties', () => {
     env: { region: region },
   });
   new GlobalTable(newstack, 'hello', {
-    partitionKey:
-    {
+    partitionKey: {
       name: 'id',
       type: ddb.AttributeType.STRING,
     },
@@ -34,8 +32,3 @@ test('Create global table with partition key and default properties', () => {
     }],
   });
 });
-
-export interface GlobalTableStackProps extends StackProps {
-  region?: string;
-  partitionKey: aws_dynamodb.Attribute;
-}

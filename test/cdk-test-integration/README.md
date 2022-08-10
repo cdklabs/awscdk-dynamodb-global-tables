@@ -1,7 +1,12 @@
-# Welcome to your CDK TypeScript project
+# this CDK app exists within the construct library to act as an integration test
 
-This is a awscdk-dynamodb-global-tables project for CDK development with TypeScript.
-The purpose of this project is to add L2 support to the AWS CDK Construct Library for DynamoDB Global Tables, which will include easy encryption configuration for GlobalTables.
+The CDK app deploys the minimum props of GlobalTable. 
+The output could be check in file `CdkTestIntegrationStack.template.json` that is located at: awscdk-dynamodb-global-tables/test/cdk-test-integration/cdk.out/
+
+Commands used to ran the integration test app:
+`yarn build`
+`cdk synth`
+`cdk deploy`
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 

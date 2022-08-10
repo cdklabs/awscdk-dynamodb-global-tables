@@ -1,5 +1,4 @@
 import { IResource, Resource, aws_dynamodb, RemovalPolicy, Stack } from 'aws-cdk-lib';
-import { CfnGlobalTable } from 'aws-cdk-lib/aws-dynamodb';
 import { Construct } from 'constructs';
 
 export interface IGlobalTable extends IResource {
@@ -16,7 +15,7 @@ export class GlobalTable extends GlobalTableBase {
 
   constructor(scope: Construct, id: string, props: GlobalTableProps) {
     super(scope, id);
-    new CfnGlobalTable(this, 'cfnglobaltable_for_demo', {
+    new aws_dynamodb.CfnGlobalTable(this, 'cfnglobaltable_for_demo', {
       attributeDefinitions: [{
         attributeName: props.partitionKey.name,
         attributeType: props.partitionKey.type,
