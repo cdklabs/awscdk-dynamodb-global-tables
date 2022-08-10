@@ -210,7 +210,6 @@ const globalTableProps: GlobalTableProps = { ... }
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#awscdk-dynamodb-global-tables.GlobalTableProps.property.partitionKey">partitionKey</a></code> | <code>aws-cdk-lib.aws_dynamodb.Attribute</code> | *No description.* |
-| <code><a href="#awscdk-dynamodb-global-tables.GlobalTableProps.property.role">role</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | *No description.* |
 
 ---
 
@@ -221,16 +220,6 @@ public readonly partitionKey: Attribute;
 ```
 
 - *Type:* aws-cdk-lib.aws_dynamodb.Attribute
-
----
-
-##### `role`<sup>Optional</sup> <a name="role" id="awscdk-dynamodb-global-tables.GlobalTableProps.property.role"></a>
-
-```typescript
-public readonly role: IRole;
-```
-
-- *Type:* aws-cdk-lib.aws_iam.IRole
 
 ---
 
