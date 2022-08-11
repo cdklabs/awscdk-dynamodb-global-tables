@@ -23,7 +23,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/5291d3da99722415ceb240f299378a3e7280b103afdb6674c3ee1c70c79d724e.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/f6d1c65ca157dc8d0713a39758bbce215cdcd41d98e3e21d8e48562a557bf01d.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -39,10 +39,10 @@
         "CdkTestIntegrationStack.assets"
       ],
       "metadata": {
-        "/CdkTestIntegrationStack/Table/cfnglobaltable_for_demo": [
+        "/CdkTestIntegrationStack/Table/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "Tablecfnglobaltablefordemo691C70D5"
+            "data": "TableCD117FA1"
           }
         ],
         "/CdkTestIntegrationStack/CDKMetadata/Default": [

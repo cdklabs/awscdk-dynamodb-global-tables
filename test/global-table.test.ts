@@ -1,7 +1,7 @@
 import { App, Stack } from 'aws-cdk-lib';
 import * as assertions from 'aws-cdk-lib/assertions';
 import * as ddb from 'aws-cdk-lib/aws-dynamodb';
-import { GlobalTable } from '../src/global-table';
+import { GlobalTable } from '../src';
 
 test('Create global table with partition key and default properties', () => {
   const region = 'us-east-1';

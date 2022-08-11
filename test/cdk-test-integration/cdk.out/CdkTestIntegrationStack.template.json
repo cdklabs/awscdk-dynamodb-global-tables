@@ -1,6 +1,6 @@
 {
  "Resources": {
-  "Tablecfnglobaltablefordemo691C70D5": {
+  "TableCD117FA1": {
    "Type": "AWS::DynamoDB::GlobalTable",
    "Properties": {
     "AttributeDefinitions": [
@@ -27,13 +27,13 @@
    "UpdateReplacePolicy": "Retain",
    "DeletionPolicy": "Retain",
    "Metadata": {
-    "aws:cdk:path": "CdkTestIntegrationStack/Table/cfnglobaltable_for_demo"
+    "aws:cdk:path": "CdkTestIntegrationStack/Table/Resource"
    }
   },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/yWIzQ6CMAyAn4X7Vp0EX4CDd/RuunUmhdEmbEiI8d0hcPp+blA3cK1wyTbQYBN7+D0LhsHs602r4Kjkof3II6nH9EKfotmzi1nnKRzeqhAXVvkbUYrQ58vX3cE14Ko+M9tplsJjhO7kBshsQax1AAAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/z2KQQrCMBBFz9J9MhqlXqAL99W9TDIjTJvOQJMqIt7dgODqv8f7Bzj2sO/wWXyi2WeJ8L5UTLMbudi2Jnat3eiluBhFGO56zhYxXzFmdk3/v8aDKUkV049TI4ap7B7hBKGH0E1FxK+bVlkYxt9+AeWonUZ+AAAA"
    },
    "Metadata": {
     "aws:cdk:path": "CdkTestIntegrationStack/CDKMetadata/Default"

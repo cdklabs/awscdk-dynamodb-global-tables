@@ -20,9 +20,9 @@
             "id": "Table",
             "path": "CdkTestIntegrationStack/Table",
             "children": {
-              "cfnglobaltable_for_demo": {
-                "id": "cfnglobaltable_for_demo",
-                "path": "CdkTestIntegrationStack/Table/cfnglobaltable_for_demo",
+              "Resource": {
+                "id": "Resource",
+                "path": "CdkTestIntegrationStack/Table/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::DynamoDB::GlobalTable",
                   "aws:cdk:cloudformation:props": {
@@ -55,8 +55,8 @@
               }
             },
             "constructInfo": {
-              "fqn": "awscdk-dynamodb-global-tables.GlobalTable",
-              "version": "0.0.0"
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.35.0"
             }
           },
           "CDKMetadata": {
