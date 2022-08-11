@@ -1,21 +1,22 @@
-import { IResource, Resource, aws_dynamodb, RemovalPolicy, Stack } from 'aws-cdk-lib';
+import * as core from 'aws-cdk-lib';
+import * as ddb from 'aws-cdk-lib/aws-dynamodb';
 import { Construct } from 'constructs';
 
-export interface IGlobalTable extends IResource {
+export interface IGlobalTable extends core.IResource {
 }
 
-abstract class GlobalTableBase extends Resource implements IGlobalTable {
+abstract class GlobalTableBase extends core.Resource implements IGlobalTable {
 }
 
 export interface GlobalTableProps {
-  readonly partitionKey: aws_dynamodb.Attribute;
+  readonly partitionKey: ddb.Attribute;
 }
 
 export class GlobalTable extends GlobalTableBase {
 
   constructor(scope: Construct, id: string, props: GlobalTableProps) {
     super(scope, id);
-    new aws_dynamodb.CfnGlobalTable(this, 'cfnglobaltable_for_demo', {
+    new ddb.CfnGlobalTable(this, 'cfnglobaltable_for_demo', {
       attributeDefinitions: [{
         attributeName: props.partitionKey.name,
         attributeType: props.partitionKey.type,
@@ -26,8 +27,8 @@ export class GlobalTable extends GlobalTableBase {
         keyType: 'HASH',
       }],
       replicas: [{
-        region: Stack.of(scope).region,
+        region: core.Stack.of(scope).region,
       }],
-    }).applyRemovalPolicy(RemovalPolicy.RETAIN);;
+    }).applyRemovalPolicy(core.RemovalPolicy.RETAIN);;
   }
 }

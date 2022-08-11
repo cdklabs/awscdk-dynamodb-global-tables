@@ -1,5 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
-import { Template } from 'aws-cdk-lib/assertions';
+import * as assertions from 'aws-cdk-lib/assertions';
 import * as ddb from 'aws-cdk-lib/aws-dynamodb';
 import { GlobalTable } from '../src/global-table';
 
@@ -15,7 +15,7 @@ test('Create global table with partition key and default properties', () => {
       type: ddb.AttributeType.STRING,
     },
   });
-  const template = Template.fromStack(newstack);
+  const template = assertions.Template.fromStack(newstack);
   template.resourceCountIs('AWS::DynamoDB::GlobalTable', 1);
   template.hasResourceProperties('AWS::DynamoDB::GlobalTable', {
     AttributeDefinitions: [{
