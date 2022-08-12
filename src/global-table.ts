@@ -7,6 +7,8 @@ import * as perms from './perms';
 export interface IGlobalTable extends IResource {
   grant(grantee: iam.IGrantable, ...actions: string[]): iam.Grant;
   grantReadData(grantee: iam.IGrantable): iam.Grant;
+  grantWriteData(grantee: iam.IGrantable): iam.Grant;
+  grantReadWriteData(grantee: iam.IGrantable): iam.Grant;
 }
 
 abstract class GlobalTableBase extends Resource implements IGlobalTable {
@@ -24,14 +26,35 @@ abstract class GlobalTableBase extends Resource implements IGlobalTable {
   }
 
   public grantReadData(identity: iam.IGrantable): iam.Grant {
-    // usually, we would grant some service-specific permissions here,
-    // but since this is just an example, let's use S3
     return iam.Grant.addToPrincipal({
       grantee: identity,
       actions: perms.READ_DATA_ACTIONS.concat(perms.DESCRIBE_TABLE), // ['s3:Get*']as many actions as you need
       resourceArns: [this.tableArn],
     });
   }
+
+  public grantWriteData(grantee: iam.IGrantable): iam.Grant {
+    //const tableActions = perms.WRITE_DATA_ACTIONS.concat(perms.DESCRIBE_TABLE);
+    //const keyActions = perms.KEY_READ_ACTIONS.concat(perms.KEY_WRITE_ACTIONS);
+    //return this.combinedGrant(grantee, { keyActions, tableActions });
+    return iam.Grant.addToPrincipal({
+      grantee,
+      actions: perms.WRITE_DATA_ACTIONS.concat(perms.DESCRIBE_TABLE),
+      resourceArns: [this.tableArn],
+    });
+  }
+
+  public grantReadWriteData(grantee: iam.IGrantable): iam.Grant {
+    //const tableActions = perms.READ_DATA_ACTIONS.concat(perms.WRITE_DATA_ACTIONS).concat(perms.DESCRIBE_TABLE);
+    //const keyActions = perms.KEY_READ_ACTIONS.concat(perms.KEY_WRITE_ACTIONS);
+    //return this.combinedGrant(grantee, { keyActions, tableActions });
+    return iam.Grant.addToPrincipal({
+      grantee,
+      actions: perms.READ_DATA_ACTIONS.concat(perms.WRITE_DATA_ACTIONS).concat(perms.DESCRIBE_TABLE),
+      resourceArns: [this.tableArn],
+    });
+  }
+
 }
 
 export interface GlobalTableProps {
@@ -55,7 +78,8 @@ export class GlobalTable extends GlobalTableBase {
       replicas: [{
         region: Stack.of(scope).region,
       }],
-    }).applyRemovalPolicy(RemovalPolicy.RETAIN);;
+    });
+    resource.applyRemovalPolicy(RemovalPolicy.RETAIN);
     this.tableArn = this.getResourceArnAttribute(resource.attrArn,
       //Stack.of(this).formatArn(exampleResourceArnComponents(Stack.of(scope).stackName)),
       {

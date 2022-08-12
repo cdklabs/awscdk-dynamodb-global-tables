@@ -4,6 +4,7 @@ export const READ_DATA_ACTIONS = [
   'dynamodb:GetItem',
   'dynamodb:Scan',
   'dynamodb:ConditionCheckItem',
+  'dynamodb:DescribeTable',
 ];
 export const KEY_READ_ACTIONS = [
   'kms:Decrypt',
@@ -11,10 +12,10 @@ export const KEY_READ_ACTIONS = [
 ];
 
 export const WRITE_DATA_ACTIONS = [
-  'dynamodb:BatchWriteItem',
+  //'dynamodb:BatchWriteItem',
   'dynamodb:PutItem',
-  'dynamodb:UpdateItem',
-  'dynamodb:DeleteItem',
+  //'dynamodb:UpdateItem',
+  //'dynamodb:DeleteItem',
 ];
 export const KEY_WRITE_ACTIONS = [
   'kms:Encrypt',

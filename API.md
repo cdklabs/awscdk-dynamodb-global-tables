@@ -46,6 +46,10 @@ new GlobalTable(scope: Construct, id: string, props: GlobalTableProps)
 | --- | --- |
 | <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.toString">toString</a></code> | Returns a string representation of this construct. |
 | <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
+| <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.grant">grant</a></code> | *No description.* |
+| <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.grantReadData">grantReadData</a></code> | *No description.* |
+| <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.grantReadWriteData">grantReadWriteData</a></code> | *No description.* |
+| <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.grantWriteData">grantWriteData</a></code> | *No description.* |
 
 ---
 
@@ -76,6 +80,60 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 ###### `policy`<sup>Required</sup> <a name="policy" id="awscdk-dynamodb-global-tables.GlobalTable.applyRemovalPolicy.parameter.policy"></a>
 
 - *Type:* aws-cdk-lib.RemovalPolicy
+
+---
+
+##### `grant` <a name="grant" id="awscdk-dynamodb-global-tables.GlobalTable.grant"></a>
+
+```typescript
+public grant(grantee: IGrantable, actions: string): Grant
+```
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="awscdk-dynamodb-global-tables.GlobalTable.grant.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+###### `actions`<sup>Required</sup> <a name="actions" id="awscdk-dynamodb-global-tables.GlobalTable.grant.parameter.actions"></a>
+
+- *Type:* string
+
+---
+
+##### `grantReadData` <a name="grantReadData" id="awscdk-dynamodb-global-tables.GlobalTable.grantReadData"></a>
+
+```typescript
+public grantReadData(identity: IGrantable): Grant
+```
+
+###### `identity`<sup>Required</sup> <a name="identity" id="awscdk-dynamodb-global-tables.GlobalTable.grantReadData.parameter.identity"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+##### `grantReadWriteData` <a name="grantReadWriteData" id="awscdk-dynamodb-global-tables.GlobalTable.grantReadWriteData"></a>
+
+```typescript
+public grantReadWriteData(grantee: IGrantable): Grant
+```
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="awscdk-dynamodb-global-tables.GlobalTable.grantReadWriteData.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+##### `grantWriteData` <a name="grantWriteData" id="awscdk-dynamodb-global-tables.GlobalTable.grantWriteData"></a>
+
+```typescript
+public grantWriteData(grantee: IGrantable): Grant
+```
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="awscdk-dynamodb-global-tables.GlobalTable.grantWriteData.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
 
 ---
 
@@ -146,6 +204,7 @@ Check whether the given construct is a Resource.
 | <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
 | <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
+| <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.property.tableArn">tableArn</a></code> | <code>string</code> | *No description.* |
 
 ---
 
@@ -192,6 +251,16 @@ The stack in which this resource is defined.
 
 ---
 
+##### `tableArn`<sup>Required</sup> <a name="tableArn" id="awscdk-dynamodb-global-tables.GlobalTable.property.tableArn"></a>
+
+```typescript
+public readonly tableArn: string;
+```
+
+- *Type:* string
+
+---
+
 
 ## Structs <a name="Structs" id="Structs"></a>
 
@@ -232,6 +301,70 @@ public readonly partitionKey: Attribute;
 
 - *Implemented By:* <a href="#awscdk-dynamodb-global-tables.GlobalTable">GlobalTable</a>, <a href="#awscdk-dynamodb-global-tables.IGlobalTable">IGlobalTable</a>
 
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#awscdk-dynamodb-global-tables.IGlobalTable.grant">grant</a></code> | *No description.* |
+| <code><a href="#awscdk-dynamodb-global-tables.IGlobalTable.grantReadData">grantReadData</a></code> | *No description.* |
+| <code><a href="#awscdk-dynamodb-global-tables.IGlobalTable.grantReadWriteData">grantReadWriteData</a></code> | *No description.* |
+| <code><a href="#awscdk-dynamodb-global-tables.IGlobalTable.grantWriteData">grantWriteData</a></code> | *No description.* |
+
+---
+
+##### `grant` <a name="grant" id="awscdk-dynamodb-global-tables.IGlobalTable.grant"></a>
+
+```typescript
+public grant(grantee: IGrantable, actions: string): Grant
+```
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="awscdk-dynamodb-global-tables.IGlobalTable.grant.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+###### `actions`<sup>Required</sup> <a name="actions" id="awscdk-dynamodb-global-tables.IGlobalTable.grant.parameter.actions"></a>
+
+- *Type:* string
+
+---
+
+##### `grantReadData` <a name="grantReadData" id="awscdk-dynamodb-global-tables.IGlobalTable.grantReadData"></a>
+
+```typescript
+public grantReadData(grantee: IGrantable): Grant
+```
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="awscdk-dynamodb-global-tables.IGlobalTable.grantReadData.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+##### `grantReadWriteData` <a name="grantReadWriteData" id="awscdk-dynamodb-global-tables.IGlobalTable.grantReadWriteData"></a>
+
+```typescript
+public grantReadWriteData(grantee: IGrantable): Grant
+```
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="awscdk-dynamodb-global-tables.IGlobalTable.grantReadWriteData.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+##### `grantWriteData` <a name="grantWriteData" id="awscdk-dynamodb-global-tables.IGlobalTable.grantWriteData"></a>
+
+```typescript
+public grantWriteData(grantee: IGrantable): Grant
+```
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="awscdk-dynamodb-global-tables.IGlobalTable.grantWriteData.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
 
 #### Properties <a name="Properties" id="Properties"></a>
 
