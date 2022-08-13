@@ -16,6 +16,8 @@ export class CdkTestIntegrationStack extends Stack {
         type: ddb.AttributeType.STRING,
       },
     });
+    //const user_grant = new iam.User(this, 'Myuser');
+    //table.grantReadWriteData(user_grant);
     const function_name = 'write_into_ddb';
     new NodejsFunction(this, function_name, {
       functionName: function_name,

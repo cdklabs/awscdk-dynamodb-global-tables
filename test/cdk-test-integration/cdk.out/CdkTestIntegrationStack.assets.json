@@ -1,20 +1,20 @@
 {
   "version": "20.0.0",
   "files": {
-    "910705cf58ec1cc7f033ce4b8452adb653f96520e9c569a2c567614b1be0bf69": {
+    "ed9585d53f134bc20eebda2fbb6536593c2c55cb6d7882db0c59a39f77b9e558": {
       "source": {
-        "path": "/Users/tianyiwu/awscdk-dynamodb-global-tables",
+        "path": "asset.ed9585d53f134bc20eebda2fbb6536593c2c55cb6d7882db0c59a39f77b9e558",
         "packaging": "zip"
       },
       "destinations": {
         "current_account-current_region": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "910705cf58ec1cc7f033ce4b8452adb653f96520e9c569a2c567614b1be0bf69.zip",
+          "objectKey": "ed9585d53f134bc20eebda2fbb6536593c2c55cb6d7882db0c59a39f77b9e558.zip",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }
     },
-    "429b4518f3a1fddac9278bb0490d726d792ac37a7ed492643173fe421f4012f2": {
+    "8703012cd4f1e03f9c52f86841b6c7430c0ac7fff88c34f9a8d94e55dcb80be5": {
       "source": {
         "path": "CdkTestIntegrationStack.template.json",
         "packaging": "file"
@@ -22,7 +22,7 @@
       "destinations": {
         "current_account-current_region": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "429b4518f3a1fddac9278bb0490d726d792ac37a7ed492643173fe421f4012f2.json",
+          "objectKey": "8703012cd4f1e03f9c52f86841b6c7430c0ac7fff88c34f9a8d94e55dcb80be5.json",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }

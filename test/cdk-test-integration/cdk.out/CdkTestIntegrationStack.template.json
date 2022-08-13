@@ -71,7 +71,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "910705cf58ec1cc7f033ce4b8452adb653f96520e9c569a2c567614b1be0bf69.zip"
+     "S3Key": "ed9585d53f134bc20eebda2fbb6536593c2c55cb6d7882db0c59a39f77b9e558.zip"
     },
     "Role": {
      "Fn::GetAtt": [
@@ -94,7 +94,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "CdkTestIntegrationStack/write_into_ddb/Resource",
-    "aws:asset:path": "/Users/tianyiwu/awscdk-dynamodb-global-tables",
+    "aws:asset:path": "asset.ed9585d53f134bc20eebda2fbb6536593c2c55cb6d7882db0c59a39f77b9e558",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
