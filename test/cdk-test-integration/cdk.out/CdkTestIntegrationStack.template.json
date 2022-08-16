@@ -64,6 +64,38 @@
     "aws:cdk:path": "CdkTestIntegrationStack/write_into_ddb/ServiceRole/Resource"
    }
   },
+  "writeintoddbServiceRoleDefaultPolicyEF477B5A": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:DescribeTable",
+        "dynamodb:PutItem"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "TableCD117FA1",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "writeintoddbServiceRoleDefaultPolicyEF477B5A",
+    "Roles": [
+     {
+      "Ref": "writeintoddbServiceRole02B3B3FC"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdkTestIntegrationStack/write_into_ddb/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
   "writeintoddb1E7A3BFE": {
    "Type": "AWS::Lambda::Function",
    "Properties": {
@@ -71,7 +103,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "ed9585d53f134bc20eebda2fbb6536593c2c55cb6d7882db0c59a39f77b9e558.zip"
+     "S3Key": "c531c9149594ff4d72c79f3c271dc5107648bb2cee4bc7fc9adedcbccd41c01a.zip"
     },
     "Role": {
      "Fn::GetAtt": [
@@ -81,7 +113,7 @@
     },
     "Environment": {
      "Variables": {
-      "HELLO_TABLE_NAME": "cfnglobaltable_for_demo",
+      "HELLO_TABLE_NAME": "CdkTestIntegrationStack",
       "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
      }
     },
@@ -90,11 +122,12 @@
     "Runtime": "nodejs14.x"
    },
    "DependsOn": [
+    "writeintoddbServiceRoleDefaultPolicyEF477B5A",
     "writeintoddbServiceRole02B3B3FC"
    ],
    "Metadata": {
     "aws:cdk:path": "CdkTestIntegrationStack/write_into_ddb/Resource",
-    "aws:asset:path": "asset.ed9585d53f134bc20eebda2fbb6536593c2c55cb6d7882db0c59a39f77b9e558",
+    "aws:asset:path": "asset.c531c9149594ff4d72c79f3c271dc5107648bb2cee4bc7fc9adedcbccd41c01a",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -102,7 +135,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/zWOSw+CQAyEfwv3pYoE72KiNw/onXQfkoV9JHRXYwj/3QXC6WvT6cycoKzgmOGXciGH3GgO0zOgGFijyMdRKJZu7SR/Dq2XHK5vdzeeo3khN4oZtFxi67xUPcFjxS06EbR3TKOFqfFJlr4WzozKFolUILgsSDvUUQwq1Ei725Kxe8xs1aVKnXbd6rP3SvPVO6k32dIAejp8ijMUFRRZT1rnY3RBWwXNxj/gPwRc7gAAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/zWOzQ6CQAyEn8X7UkWDdyHRmzHonXR/JIVlN7GLhhDe3QXC6Zum0+kc4ZTBYYc/TpRuE0sSxmdA1YrSsO8/yoi4q0Y9OOy8llC83c16ifaF0hphsZMaK+e1aRjuC669U4G8E4QdjKWPtni18OEtqWEeVzUJPlXIbALDZUacIe9Va0KOvMXPT7fQSSy+2LEmVy/BW9GoC+80rba5EjS8/6ZnSDNIdw0TJZ/eBeoMlCv/MoDmV/8AAAA="
    },
    "Metadata": {
     "aws:cdk:path": "CdkTestIntegrationStack/CDKMetadata/Default"

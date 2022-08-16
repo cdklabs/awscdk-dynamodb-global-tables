@@ -10,23 +10,23 @@ export class CdkTestIntegrationStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    new GlobalTable(this, 'Table', {
+    const my_table = new GlobalTable(this, 'Table', {
       partitionKey: {
         name: 'id',
         type: ddb.AttributeType.STRING,
       },
     });
-    //const user_grant = new iam.User(this, 'Myuser');
-    //table.grantReadWriteData(user_grant);
     const function_name = 'write_into_ddb';
-    new NodejsFunction(this, function_name, {
+    //var tablename: string = ((my_table.tableArn).split('/', 2))[1].split('-', 3)[0];
+    const my_function = new NodejsFunction(this, function_name, {
       functionName: function_name,
       runtime: Runtime.NODEJS_14_X,
       entry: '/Users/tianyiwu/awscdk-dynamodb-global-tables/test/cdk-test-integration/functions/functions.js',
       handler: 'handler',
       environment: {
-        HELLO_TABLE_NAME: 'cfnglobaltable_for_demo',
+        HELLO_TABLE_NAME: 'CdkTestIntegrationStack',
       },
     });
+    my_table.grantWriteData(my_function);
   }
 }

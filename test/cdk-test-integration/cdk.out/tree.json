@@ -105,6 +105,53 @@
                       "fqn": "aws-cdk-lib.aws_iam.CfnRole",
                       "version": "2.35.0"
                     }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "CdkTestIntegrationStack/write_into_ddb/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "CdkTestIntegrationStack/write_into_ddb/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "dynamodb:DescribeTable",
+                                    "dynamodb:PutItem"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::GetAtt": [
+                                      "TableCD117FA1",
+                                      "Arn"
+                                    ]
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "writeintoddbServiceRoleDefaultPolicyEF477B5A",
+                            "roles": [
+                              {
+                                "Ref": "writeintoddbServiceRole02B3B3FC"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.35.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.35.0"
+                    }
                   }
                 },
                 "constructInfo": {
@@ -148,7 +195,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "ed9585d53f134bc20eebda2fbb6536593c2c55cb6d7882db0c59a39f77b9e558.zip"
+                      "s3Key": "c531c9149594ff4d72c79f3c271dc5107648bb2cee4bc7fc9adedcbccd41c01a.zip"
                     },
                     "role": {
                       "Fn::GetAtt": [
@@ -158,7 +205,7 @@
                     },
                     "environment": {
                       "variables": {
-                        "HELLO_TABLE_NAME": "cfnglobaltable_for_demo",
+                        "HELLO_TABLE_NAME": "CdkTestIntegrationStack",
                         "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
                       }
                     },

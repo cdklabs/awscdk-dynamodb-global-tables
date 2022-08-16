@@ -1,24 +1,17 @@
 var AWS = require('aws-sdk');
-
+const TABLE_NAME = process.env.HELLO_TABLE_NAME;
 exports.handler = async (event, context) => {
   const dbClient = new AWS.DynamoDB({ region: "us-west-2" });
     try{
       var params = {
-        TableName: 'Customer_List',
+        TableName: TABLE_NAME,
         Item: {
           'id': { N: '001'},
           'customer_name': { S: 'Tianyi'},
         }
       };
-      dbClient.putItem(params, function(err, data) {
-        if (err) {
-          console.log("Error", err);
-        } else {
-          console.log("Success", data);
-        }
-      })
+      await dbClient.putItem(params).promise();
     } catch (err) {
       console.error(err);
     }
-  
 }
