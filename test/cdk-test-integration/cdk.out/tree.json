@@ -45,7 +45,8 @@
                         }
                       }
                     ],
-                    "billingMode": "PAY_PER_REQUEST"
+                    "billingMode": "PAY_PER_REQUEST",
+                    "tableName": "default_name"
                   }
                 },
                 "constructInfo": {
@@ -195,7 +196,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "c531c9149594ff4d72c79f3c271dc5107648bb2cee4bc7fc9adedcbccd41c01a.zip"
+                      "s3Key": "4435718795255f6afbb81bb4d296261bc3fd005720e8e65dba1ec02e7f042667.zip"
                     },
                     "role": {
                       "Fn::GetAtt": [
@@ -205,7 +206,9 @@
                     },
                     "environment": {
                       "variables": {
-                        "HELLO_TABLE_NAME": "CdkTestIntegrationStack",
+                        "HELLO_TABLE_NAME": {
+                          "Ref": "TableCD117FA1"
+                        },
                         "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
                       }
                     },

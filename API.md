@@ -205,6 +205,7 @@ Check whether the given construct is a Resource.
 | <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.property.tableArn">tableArn</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.property.tableName">tableName</a></code> | <code>string</code> | *No description.* |
 
 ---
 
@@ -261,6 +262,16 @@ public readonly tableArn: string;
 
 ---
 
+##### `tableName`<sup>Required</sup> <a name="tableName" id="awscdk-dynamodb-global-tables.GlobalTable.property.tableName"></a>
+
+```typescript
+public readonly tableName: string;
+```
+
+- *Type:* string
+
+---
+
 
 ## Structs <a name="Structs" id="Structs"></a>
 
@@ -279,6 +290,7 @@ const globalTableProps: GlobalTableProps = { ... }
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#awscdk-dynamodb-global-tables.GlobalTableProps.property.partitionKey">partitionKey</a></code> | <code>aws-cdk-lib.aws_dynamodb.Attribute</code> | *No description.* |
+| <code><a href="#awscdk-dynamodb-global-tables.GlobalTableProps.property.tableName">tableName</a></code> | <code>string</code> | *No description.* |
 
 ---
 
@@ -289,6 +301,16 @@ public readonly partitionKey: Attribute;
 ```
 
 - *Type:* aws-cdk-lib.aws_dynamodb.Attribute
+
+---
+
+##### `tableName`<sup>Optional</sup> <a name="tableName" id="awscdk-dynamodb-global-tables.GlobalTableProps.property.tableName"></a>
+
+```typescript
+public readonly tableName: string;
+```
+
+- *Type:* string
 
 ---
 

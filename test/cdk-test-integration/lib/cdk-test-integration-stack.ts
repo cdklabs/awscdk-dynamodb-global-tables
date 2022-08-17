@@ -17,16 +17,17 @@ export class CdkTestIntegrationStack extends Stack {
       },
     });
     const function_name = 'write_into_ddb';
-    //var tablename: string = ((my_table.tableArn).split('/', 2))[1].split('-', 3)[0];
     const my_function = new NodejsFunction(this, function_name, {
       functionName: function_name,
       runtime: Runtime.NODEJS_14_X,
       entry: '/Users/tianyiwu/awscdk-dynamodb-global-tables/test/cdk-test-integration/functions/functions.js',
       handler: 'handler',
       environment: {
-        HELLO_TABLE_NAME: 'CdkTestIntegrationStack',
+        HELLO_TABLE_NAME: my_table.tableName,
       },
     });
     my_table.grantWriteData(my_function);
+    //my_table.grantReadData(my_function);
+    //my_table.grantReadWriteData(my_function);
   }
 }
