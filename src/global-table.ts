@@ -1,4 +1,4 @@
-import { IResource, RemovalPolicy, Resource, Stack } from 'aws-cdk-lib';
+import { IResource, RemovalPolicy, Resource } from 'aws-cdk-lib';
 import * as ddb from 'aws-cdk-lib/aws-dynamodb';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
@@ -60,64 +60,56 @@ abstract class GlobalTableBase extends Resource implements IGlobalTable {
 
 export interface GlobalTableProps {
   readonly partitionKey: ddb.Attribute;
+  readonly replicas ?: Replica[];
   readonly tableName ?: string;
+}
+
+export interface Replica {
+  readonly region: string;
 }
 
 export class GlobalTable extends GlobalTableBase {
   public readonly tableArn: string;
   public readonly tableName: string;
+  public readonly replicateregions: Replica[] = [];
   constructor(scope: Construct, id: string, props: GlobalTableProps) {
     super(scope, id);
-    if (props.tableName) {
-      const resource = new ddb.CfnGlobalTable(this, 'Resource', {
-        attributeDefinitions: [{
-          attributeName: props.partitionKey.name,
-          attributeType: props.partitionKey.type,
-        }],
-        billingMode: 'PAY_PER_REQUEST',
-        keySchema: [{
-          attributeName: props.partitionKey.name,
-          keyType: 'HASH',
-        }],
-        replicas: [{
-          region: Stack.of(scope).region,
-        }],
-        tableName: props.tableName,
+    // add current region into table props replicas ?, so the default value would be the current(stack) region
+    this.replicateregions.push({ region: this.env.region });//Token.asString(this.env.region) });
+    // add possible multiple replicas
+    if (props.replicas !== undefined) {
+      props.replicas?.forEach((eachRegion) => {
+        this.replicateregions.push({ region: eachRegion.region });
       });
-      resource.applyRemovalPolicy(RemovalPolicy.RETAIN);
-      this.tableArn = this.getResourceArnAttribute(resource.attrArn,
-        {
-          service: 'dynamodb',
-          resource: 'GlobalTable',
-          resourceName: this.physicalName,
-        },
-      );
-      this.tableName = this.getResourceNameAttribute(resource.ref);
-    } else {
-      const resource = new ddb.CfnGlobalTable(this, 'Resource', {
-        attributeDefinitions: [{
-          attributeName: props.partitionKey.name,
-          attributeType: props.partitionKey.type,
-        }],
-        billingMode: 'PAY_PER_REQUEST',
-        keySchema: [{
-          attributeName: props.partitionKey.name,
-          keyType: 'HASH',
-        }],
-        replicas: [{
-          region: Stack.of(scope).region,
-        }],
-        tableName: 'default_name',
-      });
-      resource.applyRemovalPolicy(RemovalPolicy.RETAIN);
-      this.tableArn = this.getResourceArnAttribute(resource.attrArn,
-        {
-          service: 'dynamodb',
-          resource: 'GlobalTable',
-          resourceName: this.physicalName,
-        },
-      );
-      this.tableName = this.getResourceNameAttribute(resource.ref);
     }
+    const resource = new ddb.CfnGlobalTable(this, 'Resource', {
+      attributeDefinitions: [{
+        attributeName: props.partitionKey.name,
+        attributeType: props.partitionKey.type,
+      }],
+      billingMode: 'PAY_PER_REQUEST',
+      keySchema: [{
+        attributeName: props.partitionKey.name,
+        keyType: 'HASH',
+      }],
+      streamSpecification: {
+        streamViewType: 'KEYS_ONLY',
+      },
+      replicas: props.replicas ?? this.replicateregions.map((regions) => {
+        return {
+          region: regions.region,
+        };
+      }),
+      tableName: props.tableName ?? 'default_name',
+    });
+    resource.applyRemovalPolicy(RemovalPolicy.DESTROY);
+    this.tableArn = this.getResourceArnAttribute(resource.attrArn,
+      {
+        service: 'dynamodb',
+        resource: 'GlobalTable',
+        resourceName: this.physicalName,
+      },
+    );
+    this.tableName = this.getResourceNameAttribute(resource.ref);
   }
 }

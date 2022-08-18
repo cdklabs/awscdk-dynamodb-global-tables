@@ -17,21 +17,28 @@
     ],
     "Replicas": [
      {
-      "Region": {
-       "Ref": "AWS::Region"
-      }
+      "Region": "us-east-1"
+     },
+     {
+      "Region": "us-west-1"
+     },
+     {
+      "Region": "us-west-2"
      }
     ],
     "BillingMode": "PAY_PER_REQUEST",
-    "TableName": "default_name"
+    "StreamSpecification": {
+     "StreamViewType": "KEYS_ONLY"
+    },
+    "TableName": "with_replica_table_name"
    },
-   "UpdateReplacePolicy": "Retain",
-   "DeletionPolicy": "Retain",
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
    "Metadata": {
     "aws:cdk:path": "CdkTestIntegrationStack/Table/Resource"
    }
   },
-  "writeintoddbServiceRole02B3B3FC": {
+  "readfromddbServiceRole81D6E7D1": {
    "Type": "AWS::IAM::Role",
    "Properties": {
     "AssumeRolePolicyDocument": {
@@ -62,18 +69,22 @@
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "CdkTestIntegrationStack/write_into_ddb/ServiceRole/Resource"
+    "aws:cdk:path": "CdkTestIntegrationStack/read_from_ddb/ServiceRole/Resource"
    }
   },
-  "writeintoddbServiceRoleDefaultPolicyEF477B5A": {
+  "readfromddbServiceRoleDefaultPolicy49D0F4F1": {
    "Type": "AWS::IAM::Policy",
    "Properties": {
     "PolicyDocument": {
      "Statement": [
       {
        "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:ConditionCheckItem",
         "dynamodb:DescribeTable",
-        "dynamodb:PutItem"
+        "dynamodb:GetItem",
+        "dynamodb:Query",
+        "dynamodb:Scan"
        ],
        "Effect": "Allow",
        "Resource": {
@@ -86,29 +97,29 @@
      ],
      "Version": "2012-10-17"
     },
-    "PolicyName": "writeintoddbServiceRoleDefaultPolicyEF477B5A",
+    "PolicyName": "readfromddbServiceRoleDefaultPolicy49D0F4F1",
     "Roles": [
      {
-      "Ref": "writeintoddbServiceRole02B3B3FC"
+      "Ref": "readfromddbServiceRole81D6E7D1"
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "CdkTestIntegrationStack/write_into_ddb/ServiceRole/DefaultPolicy/Resource"
+    "aws:cdk:path": "CdkTestIntegrationStack/read_from_ddb/ServiceRole/DefaultPolicy/Resource"
    }
   },
-  "writeintoddb1E7A3BFE": {
+  "readfromddbAFFBA6C0": {
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "4435718795255f6afbb81bb4d296261bc3fd005720e8e65dba1ec02e7f042667.zip"
+     "S3Key": "e9e172bd46391f9f5b3f92dccb11ae69492145683656b1708675cac03f70b1b6.zip"
     },
     "Role": {
      "Fn::GetAtt": [
-      "writeintoddbServiceRole02B3B3FC",
+      "readfromddbServiceRole81D6E7D1",
       "Arn"
      ]
     },
@@ -120,17 +131,17 @@
       "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
      }
     },
-    "FunctionName": "write_into_ddb",
+    "FunctionName": "read_from_ddb",
     "Handler": "index.handler",
     "Runtime": "nodejs14.x"
    },
    "DependsOn": [
-    "writeintoddbServiceRoleDefaultPolicyEF477B5A",
-    "writeintoddbServiceRole02B3B3FC"
+    "readfromddbServiceRoleDefaultPolicy49D0F4F1",
+    "readfromddbServiceRole81D6E7D1"
    ],
    "Metadata": {
-    "aws:cdk:path": "CdkTestIntegrationStack/write_into_ddb/Resource",
-    "aws:asset:path": "asset.4435718795255f6afbb81bb4d296261bc3fd005720e8e65dba1ec02e7f042667",
+    "aws:cdk:path": "CdkTestIntegrationStack/read_from_ddb/Resource",
+    "aws:asset:path": "asset.e9e172bd46391f9f5b3f92dccb11ae69492145683656b1708675cac03f70b1b6",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }

@@ -31,6 +31,54 @@ test('Create global table with partition key and default properties', () => {
     Replicas: [{
       Region: newstack.region,
     }],
+    TableName: 'default_name',
+  });
+});
+
+test('Create global table with partition key and specified replica, tablename', () => {
+  const region = 'us-east-1';
+  const app = new App();
+  const newstack = new Stack(app, 'id', {
+    env: { region: region },
+  });
+  new GlobalTable(newstack, 'hello', {
+    partitionKey: {
+      name: 'id',
+      type: ddb.AttributeType.STRING,
+    },
+    replicas: [{
+      region: newstack.region,
+    },
+    {
+      region: 'us-west-1',
+    },
+    {
+      region: 'us-west-2',
+    }],
+    tableName: 'test_purpose',
+  });
+  const template = assertions.Template.fromStack(newstack);
+  template.resourceCountIs('AWS::DynamoDB::GlobalTable', 1);
+  template.hasResourceProperties('AWS::DynamoDB::GlobalTable', {
+    AttributeDefinitions: [{
+      AttributeName: 'id',
+      AttributeType: 'S',
+    }],
+    BillingMode: 'PAY_PER_REQUEST',
+    KeySchema: [{
+      AttributeName: 'id',
+      KeyType: 'HASH',
+    }],
+    Replicas: [{
+      Region: newstack.region,
+    },
+    {
+      Region: 'us-west-1',
+    },
+    {
+      Region: 'us-west-2',
+    }],
+    TableName: 'test_purpose',
   });
 });
 
@@ -64,6 +112,12 @@ function testGrant(expectedActions: string[], invocation: (user: iam.IPrincipal,
     partitionKey: {
       name: 'id', type: ddb.AttributeType.STRING,
     },
+    replicas: [{
+      region: 'us-east-2',
+    },
+    {
+      region: 'us-west-1',
+    }],
   });
   const user = new iam.User(stack, 'user');
 

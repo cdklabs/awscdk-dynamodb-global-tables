@@ -23,7 +23,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/3ade609e01632b384bc40988a0d2482d5034e30a85c73444b92e71ccf0414815.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/3c29456852de8b770a545d30c2e5b91678abf44c61e112b59adb6e4adb12c8dc.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -45,22 +45,22 @@
             "data": "TableCD117FA1"
           }
         ],
-        "/CdkTestIntegrationStack/write_into_ddb/ServiceRole/Resource": [
+        "/CdkTestIntegrationStack/read_from_ddb/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "writeintoddbServiceRole02B3B3FC"
+            "data": "readfromddbServiceRole81D6E7D1"
           }
         ],
-        "/CdkTestIntegrationStack/write_into_ddb/ServiceRole/DefaultPolicy/Resource": [
+        "/CdkTestIntegrationStack/read_from_ddb/ServiceRole/DefaultPolicy/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "writeintoddbServiceRoleDefaultPolicyEF477B5A"
+            "data": "readfromddbServiceRoleDefaultPolicy49D0F4F1"
           }
         ],
-        "/CdkTestIntegrationStack/write_into_ddb/Resource": [
+        "/CdkTestIntegrationStack/read_from_ddb/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "writeintoddb1E7A3BFE"
+            "data": "readfromddbAFFBA6C0"
           }
         ],
         "/CdkTestIntegrationStack/CDKMetadata/Default": [

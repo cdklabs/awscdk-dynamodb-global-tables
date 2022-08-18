@@ -40,13 +40,20 @@
                     ],
                     "replicas": [
                       {
-                        "region": {
-                          "Ref": "AWS::Region"
-                        }
+                        "region": "us-east-1"
+                      },
+                      {
+                        "region": "us-west-1"
+                      },
+                      {
+                        "region": "us-west-2"
                       }
                     ],
                     "billingMode": "PAY_PER_REQUEST",
-                    "tableName": "default_name"
+                    "streamSpecification": {
+                      "streamViewType": "KEYS_ONLY"
+                    },
+                    "tableName": "with_replica_table_name"
                   }
                 },
                 "constructInfo": {
@@ -60,17 +67,17 @@
               "version": "2.35.0"
             }
           },
-          "write_into_ddb": {
-            "id": "write_into_ddb",
-            "path": "CdkTestIntegrationStack/write_into_ddb",
+          "read_from_ddb": {
+            "id": "read_from_ddb",
+            "path": "CdkTestIntegrationStack/read_from_ddb",
             "children": {
               "ServiceRole": {
                 "id": "ServiceRole",
-                "path": "CdkTestIntegrationStack/write_into_ddb/ServiceRole",
+                "path": "CdkTestIntegrationStack/read_from_ddb/ServiceRole",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "CdkTestIntegrationStack/write_into_ddb/ServiceRole/Resource",
+                    "path": "CdkTestIntegrationStack/read_from_ddb/ServiceRole/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                       "aws:cdk:cloudformation:props": {
@@ -109,11 +116,11 @@
                   },
                   "DefaultPolicy": {
                     "id": "DefaultPolicy",
-                    "path": "CdkTestIntegrationStack/write_into_ddb/ServiceRole/DefaultPolicy",
+                    "path": "CdkTestIntegrationStack/read_from_ddb/ServiceRole/DefaultPolicy",
                     "children": {
                       "Resource": {
                         "id": "Resource",
-                        "path": "CdkTestIntegrationStack/write_into_ddb/ServiceRole/DefaultPolicy/Resource",
+                        "path": "CdkTestIntegrationStack/read_from_ddb/ServiceRole/DefaultPolicy/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                           "aws:cdk:cloudformation:props": {
@@ -121,8 +128,12 @@
                               "Statement": [
                                 {
                                   "Action": [
+                                    "dynamodb:BatchGetItem",
+                                    "dynamodb:ConditionCheckItem",
                                     "dynamodb:DescribeTable",
-                                    "dynamodb:PutItem"
+                                    "dynamodb:GetItem",
+                                    "dynamodb:Query",
+                                    "dynamodb:Scan"
                                   ],
                                   "Effect": "Allow",
                                   "Resource": {
@@ -135,10 +146,10 @@
                               ],
                               "Version": "2012-10-17"
                             },
-                            "policyName": "writeintoddbServiceRoleDefaultPolicyEF477B5A",
+                            "policyName": "readfromddbServiceRoleDefaultPolicy49D0F4F1",
                             "roles": [
                               {
-                                "Ref": "writeintoddbServiceRole02B3B3FC"
+                                "Ref": "readfromddbServiceRole81D6E7D1"
                               }
                             ]
                           }
@@ -162,11 +173,11 @@
               },
               "Code": {
                 "id": "Code",
-                "path": "CdkTestIntegrationStack/write_into_ddb/Code",
+                "path": "CdkTestIntegrationStack/read_from_ddb/Code",
                 "children": {
                   "Stage": {
                     "id": "Stage",
-                    "path": "CdkTestIntegrationStack/write_into_ddb/Code/Stage",
+                    "path": "CdkTestIntegrationStack/read_from_ddb/Code/Stage",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.AssetStaging",
                       "version": "2.35.0"
@@ -174,7 +185,7 @@
                   },
                   "AssetBucket": {
                     "id": "AssetBucket",
-                    "path": "CdkTestIntegrationStack/write_into_ddb/Code/AssetBucket",
+                    "path": "CdkTestIntegrationStack/read_from_ddb/Code/AssetBucket",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3.BucketBase",
                       "version": "2.35.0"
@@ -188,7 +199,7 @@
               },
               "Resource": {
                 "id": "Resource",
-                "path": "CdkTestIntegrationStack/write_into_ddb/Resource",
+                "path": "CdkTestIntegrationStack/read_from_ddb/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                   "aws:cdk:cloudformation:props": {
@@ -196,11 +207,11 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "4435718795255f6afbb81bb4d296261bc3fd005720e8e65dba1ec02e7f042667.zip"
+                      "s3Key": "e9e172bd46391f9f5b3f92dccb11ae69492145683656b1708675cac03f70b1b6.zip"
                     },
                     "role": {
                       "Fn::GetAtt": [
-                        "writeintoddbServiceRole02B3B3FC",
+                        "readfromddbServiceRole81D6E7D1",
                         "Arn"
                       ]
                     },
@@ -212,7 +223,7 @@
                         "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
                       }
                     },
-                    "functionName": "write_into_ddb",
+                    "functionName": "read_from_ddb",
                     "handler": "index.handler",
                     "runtime": "nodejs14.x"
                   }
