@@ -204,7 +204,6 @@ Check whether the given construct is a Resource.
 | <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
 | <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
-| <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.property.replicateregions">replicateregions</a></code> | <code><a href="#awscdk-dynamodb-global-tables.Replica">Replica</a>[]</code> | *No description.* |
 | <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.property.tableArn">tableArn</a></code> | <code>string</code> | *No description.* |
 | <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.property.tableName">tableName</a></code> | <code>string</code> | *No description.* |
 
@@ -253,16 +252,6 @@ The stack in which this resource is defined.
 
 ---
 
-##### `replicateregions`<sup>Required</sup> <a name="replicateregions" id="awscdk-dynamodb-global-tables.GlobalTable.property.replicateregions"></a>
-
-```typescript
-public readonly replicateregions: Replica[];
-```
-
-- *Type:* <a href="#awscdk-dynamodb-global-tables.Replica">Replica</a>[]
-
----
-
 ##### `tableArn`<sup>Required</sup> <a name="tableArn" id="awscdk-dynamodb-global-tables.GlobalTable.property.tableArn"></a>
 
 ```typescript
@@ -301,7 +290,6 @@ const globalTableProps: GlobalTableProps = { ... }
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#awscdk-dynamodb-global-tables.GlobalTableProps.property.partitionKey">partitionKey</a></code> | <code>aws-cdk-lib.aws_dynamodb.Attribute</code> | *No description.* |
-| <code><a href="#awscdk-dynamodb-global-tables.GlobalTableProps.property.replicas">replicas</a></code> | <code><a href="#awscdk-dynamodb-global-tables.Replica">Replica</a>[]</code> | *No description.* |
 | <code><a href="#awscdk-dynamodb-global-tables.GlobalTableProps.property.tableName">tableName</a></code> | <code>string</code> | *No description.* |
 
 ---
@@ -316,48 +304,10 @@ public readonly partitionKey: Attribute;
 
 ---
 
-##### `replicas`<sup>Optional</sup> <a name="replicas" id="awscdk-dynamodb-global-tables.GlobalTableProps.property.replicas"></a>
-
-```typescript
-public readonly replicas: Replica[];
-```
-
-- *Type:* <a href="#awscdk-dynamodb-global-tables.Replica">Replica</a>[]
-
----
-
 ##### `tableName`<sup>Optional</sup> <a name="tableName" id="awscdk-dynamodb-global-tables.GlobalTableProps.property.tableName"></a>
 
 ```typescript
 public readonly tableName: string;
-```
-
-- *Type:* string
-
----
-
-### Replica <a name="Replica" id="awscdk-dynamodb-global-tables.Replica"></a>
-
-#### Initializer <a name="Initializer" id="awscdk-dynamodb-global-tables.Replica.Initializer"></a>
-
-```typescript
-import { Replica } from 'awscdk-dynamodb-global-tables'
-
-const replica: Replica = { ... }
-```
-
-#### Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#awscdk-dynamodb-global-tables.Replica.property.region">region</a></code> | <code>string</code> | *No description.* |
-
----
-
-##### `region`<sup>Required</sup> <a name="region" id="awscdk-dynamodb-global-tables.Replica.property.region"></a>
-
-```typescript
-public readonly region: string;
 ```
 
 - *Type:* string
