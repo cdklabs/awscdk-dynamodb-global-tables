@@ -7,6 +7,11 @@ const project = new awscdk.AwsCdkConstructLibrary({
   name: 'awscdk-dynamodb-global-tables',
   repositoryUrl: 'https://github.com/cdklabs/awscdk-dynamodb-global-tables.git',
   stability: 'experimental',
+
+  autoApproveOptions: {
+    allowedUsernames: ['cdklabs-automation'],
+    secret: 'GITHUB_TOKEN',
+  },
   autoApproveUpgrades: true,
 
   // deps: [],                /* Runtime dependencies of this module. */
