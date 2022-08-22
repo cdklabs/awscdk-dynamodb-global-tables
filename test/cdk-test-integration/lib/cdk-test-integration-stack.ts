@@ -1,8 +1,5 @@
-//import * as path from 'path';
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { aws_lambda, aws_lambda_nodejs, Stack, StackProps } from 'aws-cdk-lib';
 import * as ddb from 'aws-cdk-lib/aws-dynamodb';
-import { Runtime } from 'aws-cdk-lib/aws-lambda';
-import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
 import { GlobalTable } from '../../../src';
 
@@ -17,10 +14,11 @@ export class CdkTestIntegrationStack extends Stack {
       },
     });
     const function_name = 'write_into_ddb';
-    const my_function = new NodejsFunction(this, function_name, {
+    const my_function = new aws_lambda_nodejs.NodejsFunction(this, function_name, {
       functionName: function_name,
-      runtime: Runtime.NODEJS_14_X,
-      entry: '/Users/tianyiwu/awscdk-dynamodb-global-tables/test/cdk-test-integration/functions/functions.js',
+      runtime: aws_lambda.Runtime.NODEJS_14_X,
+      //entry: '/Users/tianyiwu/awscdk-dynamodb-global-tables/test/cdk-test-integration/functions/functions.js',
+      entry: '../../functions/functions.js',
       handler: 'handler',
       environment: {
         HELLO_TABLE_NAME: my_table.tableName,

@@ -5,16 +5,56 @@ import { Construct } from 'constructs';
 import * as perms from './perms';
 
 export interface IGlobalTable extends IResource {
+
+  /**
+   * Adds an IAM policy statement associated with this table to an IAM
+   * principal's policy.
+   * @param grantee The principal (no-op if undefined)
+   * @param actions The set of actions to allow (i.e. "dynamodb:PutItem", "dynamodb:GetItem", ...)
+   */
   grant(grantee: iam.IGrantable, ...actions: string[]): iam.Grant;
+
+  /**
+   * Permits an IAM principal all data read operations from this table:
+   * BatchGetItem, Query, GetItem, Scan, ConditionCheckItem, DescribeTable.
+   *
+   * Appropriate grants will also be added to the customer-managed KMS key
+   * if one was configured.
+   *
+   * @param grantee The principal to grant access to
+   */
   grantReadData(grantee: iam.IGrantable): iam.Grant;
+
+  /**
+   * Permits an IAM principal all data write operations to this table:
+   * PutItem.
+   *
+   * Appropriate grants will also be added to the customer-managed KMS key
+   * if one was configured.
+   *
+   * @param grantee The principal to grant access to
+   */
   grantWriteData(grantee: iam.IGrantable): iam.Grant;
+
+  /**
+   * Permits an IAM principal to all data read/write operations to this table.
+   * BatchGetItem, Query, GetItem, Scan, ConditionCheckItem, DescribeTable,
+   * PutItem
+   *
+   * Appropriate grants will also be added to the customer-managed KMS key
+   * if one was configured.
+   *
+   * @param grantee The principal to grant access to
+   */
   grantReadWriteData(grantee: iam.IGrantable): iam.Grant;
+
 }
 
 abstract class GlobalTableBase extends Resource implements IGlobalTable {
   public abstract readonly tableArn: string;
-  protected readonly regionalArns = new Array<string>();
   public abstract readonly tableName: string;
+
+  protected readonly regionalArns = new Array<string>();
   public grant(grantee: iam.IGrantable, ...actions: string[]): iam.Grant {
     return iam.Grant.addToPrincipal({
       grantee,
@@ -29,15 +69,12 @@ abstract class GlobalTableBase extends Resource implements IGlobalTable {
   public grantReadData(identity: iam.IGrantable): iam.Grant {
     return iam.Grant.addToPrincipal({
       grantee: identity,
-      actions: perms.READ_DATA_ACTIONS.concat(perms.DESCRIBE_TABLE), // ['s3:Get*']as many actions as you need
+      actions: perms.READ_DATA_ACTIONS.concat(perms.DESCRIBE_TABLE),
       resourceArns: [this.tableArn],
     });
   }
 
   public grantWriteData(grantee: iam.IGrantable): iam.Grant {
-    //const tableActions = perms.WRITE_DATA_ACTIONS.concat(perms.DESCRIBE_TABLE);
-    //const keyActions = perms.KEY_READ_ACTIONS.concat(perms.KEY_WRITE_ACTIONS);
-    //return this.combinedGrant(grantee, { keyActions, tableActions });
     return iam.Grant.addToPrincipal({
       grantee,
       actions: perms.WRITE_DATA_ACTIONS.concat(perms.DESCRIBE_TABLE),
@@ -46,9 +83,6 @@ abstract class GlobalTableBase extends Resource implements IGlobalTable {
   }
 
   public grantReadWriteData(grantee: iam.IGrantable): iam.Grant {
-    //const tableActions = perms.READ_DATA_ACTIONS.concat(perms.WRITE_DATA_ACTIONS).concat(perms.DESCRIBE_TABLE);
-    //const keyActions = perms.KEY_READ_ACTIONS.concat(perms.KEY_WRITE_ACTIONS);
-    //return this.combinedGrant(grantee, { keyActions, tableActions });
     return iam.Grant.addToPrincipal({
       grantee,
       actions: perms.READ_DATA_ACTIONS.concat(perms.WRITE_DATA_ACTIONS).concat(perms.DESCRIBE_TABLE),
@@ -60,64 +94,39 @@ abstract class GlobalTableBase extends Resource implements IGlobalTable {
 
 export interface GlobalTableProps {
   readonly partitionKey: ddb.Attribute;
-  readonly tableName ?: string;
+  readonly tableName?: string;
 }
 
 export class GlobalTable extends GlobalTableBase {
   public readonly tableArn: string;
   public readonly tableName: string;
   constructor(scope: Construct, id: string, props: GlobalTableProps) {
-    super(scope, id);
-    if (props.tableName) {
-      const resource = new ddb.CfnGlobalTable(this, 'Resource', {
-        attributeDefinitions: [{
-          attributeName: props.partitionKey.name,
-          attributeType: props.partitionKey.type,
-        }],
-        billingMode: 'PAY_PER_REQUEST',
-        keySchema: [{
-          attributeName: props.partitionKey.name,
-          keyType: 'HASH',
-        }],
-        replicas: [{
-          region: Stack.of(scope).region,
-        }],
-        tableName: props.tableName,
-      });
-      resource.applyRemovalPolicy(RemovalPolicy.RETAIN);
-      this.tableArn = this.getResourceArnAttribute(resource.attrArn,
-        {
-          service: 'dynamodb',
-          resource: 'GlobalTable',
-          resourceName: this.physicalName,
-        },
-      );
-      this.tableName = this.getResourceNameAttribute(resource.ref);
-    } else {
-      const resource = new ddb.CfnGlobalTable(this, 'Resource', {
-        attributeDefinitions: [{
-          attributeName: props.partitionKey.name,
-          attributeType: props.partitionKey.type,
-        }],
-        billingMode: 'PAY_PER_REQUEST',
-        keySchema: [{
-          attributeName: props.partitionKey.name,
-          keyType: 'HASH',
-        }],
-        replicas: [{
-          region: Stack.of(scope).region,
-        }],
-        tableName: 'default_name',
-      });
-      resource.applyRemovalPolicy(RemovalPolicy.RETAIN);
-      this.tableArn = this.getResourceArnAttribute(resource.attrArn,
-        {
-          service: 'dynamodb',
-          resource: 'GlobalTable',
-          resourceName: this.physicalName,
-        },
-      );
-      this.tableName = this.getResourceNameAttribute(resource.ref);
-    }
+    super(scope, id, {
+      physicalName: props.tableName,
+    });
+    const resource = new ddb.CfnGlobalTable(this, 'Resource', {
+      attributeDefinitions: [{
+        attributeName: props.partitionKey.name,
+        attributeType: props.partitionKey.type,
+      }],
+      billingMode: 'PAY_PER_REQUEST',
+      keySchema: [{
+        attributeName: props.partitionKey.name,
+        keyType: 'HASH',
+      }],
+      replicas: [{
+        region: Stack.of(scope).region,
+      }],
+      tableName: this.physicalName,
+    });
+    resource.applyRemovalPolicy(RemovalPolicy.DESTROY);
+    this.tableArn = this.getResourceArnAttribute(resource.attrArn,
+      {
+        service: 'dynamodb',
+        resource: 'GlobalTable',
+        resourceName: this.physicalName,
+      },
+    );
+    this.tableName = this.getResourceNameAttribute(resource.ref);
   }
 }

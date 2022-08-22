@@ -46,10 +46,10 @@ new GlobalTable(scope: Construct, id: string, props: GlobalTableProps)
 | --- | --- |
 | <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.toString">toString</a></code> | Returns a string representation of this construct. |
 | <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
-| <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.grant">grant</a></code> | *No description.* |
-| <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.grantReadData">grantReadData</a></code> | *No description.* |
-| <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.grantReadWriteData">grantReadWriteData</a></code> | *No description.* |
-| <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.grantWriteData">grantWriteData</a></code> | *No description.* |
+| <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.grant">grant</a></code> | Adds an IAM policy statement associated with this table to an IAM principal's policy. |
+| <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.grantReadData">grantReadData</a></code> | Permits an IAM principal all data read operations from this table: BatchGetItem, Query, GetItem, Scan, ConditionCheckItem, DescribeTable. |
+| <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.grantReadWriteData">grantReadWriteData</a></code> | Permits an IAM principal to all data read/write operations to this table. BatchGetItem, Query, GetItem, Scan, ConditionCheckItem, DescribeTable, PutItem. |
+| <code><a href="#awscdk-dynamodb-global-tables.GlobalTable.grantWriteData">grantWriteData</a></code> | Permits an IAM principal all data write operations to this table: PutItem. |
 
 ---
 
@@ -89,6 +89,8 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 public grant(grantee: IGrantable, actions: string): Grant
 ```
 
+Adds an IAM policy statement associated with this table to an IAM principal's policy.
+
 ###### `grantee`<sup>Required</sup> <a name="grantee" id="awscdk-dynamodb-global-tables.GlobalTable.grant.parameter.grantee"></a>
 
 - *Type:* aws-cdk-lib.aws_iam.IGrantable
@@ -107,6 +109,11 @@ public grant(grantee: IGrantable, actions: string): Grant
 public grantReadData(identity: IGrantable): Grant
 ```
 
+Permits an IAM principal all data read operations from this table: BatchGetItem, Query, GetItem, Scan, ConditionCheckItem, DescribeTable.
+
+Appropriate grants will also be added to the customer-managed KMS key
+if one was configured.
+
 ###### `identity`<sup>Required</sup> <a name="identity" id="awscdk-dynamodb-global-tables.GlobalTable.grantReadData.parameter.identity"></a>
 
 - *Type:* aws-cdk-lib.aws_iam.IGrantable
@@ -119,6 +126,11 @@ public grantReadData(identity: IGrantable): Grant
 public grantReadWriteData(grantee: IGrantable): Grant
 ```
 
+Permits an IAM principal to all data read/write operations to this table. BatchGetItem, Query, GetItem, Scan, ConditionCheckItem, DescribeTable, PutItem.
+
+Appropriate grants will also be added to the customer-managed KMS key
+if one was configured.
+
 ###### `grantee`<sup>Required</sup> <a name="grantee" id="awscdk-dynamodb-global-tables.GlobalTable.grantReadWriteData.parameter.grantee"></a>
 
 - *Type:* aws-cdk-lib.aws_iam.IGrantable
@@ -130,6 +142,11 @@ public grantReadWriteData(grantee: IGrantable): Grant
 ```typescript
 public grantWriteData(grantee: IGrantable): Grant
 ```
+
+Permits an IAM principal all data write operations to this table: PutItem.
+
+Appropriate grants will also be added to the customer-managed KMS key
+if one was configured.
 
 ###### `grantee`<sup>Required</sup> <a name="grantee" id="awscdk-dynamodb-global-tables.GlobalTable.grantWriteData.parameter.grantee"></a>
 
@@ -327,10 +344,10 @@ public readonly tableName: string;
 
 | **Name** | **Description** |
 | --- | --- |
-| <code><a href="#awscdk-dynamodb-global-tables.IGlobalTable.grant">grant</a></code> | *No description.* |
-| <code><a href="#awscdk-dynamodb-global-tables.IGlobalTable.grantReadData">grantReadData</a></code> | *No description.* |
-| <code><a href="#awscdk-dynamodb-global-tables.IGlobalTable.grantReadWriteData">grantReadWriteData</a></code> | *No description.* |
-| <code><a href="#awscdk-dynamodb-global-tables.IGlobalTable.grantWriteData">grantWriteData</a></code> | *No description.* |
+| <code><a href="#awscdk-dynamodb-global-tables.IGlobalTable.grant">grant</a></code> | Adds an IAM policy statement associated with this table to an IAM principal's policy. |
+| <code><a href="#awscdk-dynamodb-global-tables.IGlobalTable.grantReadData">grantReadData</a></code> | Permits an IAM principal all data read operations from this table: BatchGetItem, Query, GetItem, Scan, ConditionCheckItem, DescribeTable. |
+| <code><a href="#awscdk-dynamodb-global-tables.IGlobalTable.grantReadWriteData">grantReadWriteData</a></code> | Permits an IAM principal to all data read/write operations to this table. BatchGetItem, Query, GetItem, Scan, ConditionCheckItem, DescribeTable, PutItem. |
+| <code><a href="#awscdk-dynamodb-global-tables.IGlobalTable.grantWriteData">grantWriteData</a></code> | Permits an IAM principal all data write operations to this table: PutItem. |
 
 ---
 
@@ -340,15 +357,21 @@ public readonly tableName: string;
 public grant(grantee: IGrantable, actions: string): Grant
 ```
 
+Adds an IAM policy statement associated with this table to an IAM principal's policy.
+
 ###### `grantee`<sup>Required</sup> <a name="grantee" id="awscdk-dynamodb-global-tables.IGlobalTable.grant.parameter.grantee"></a>
 
 - *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+The principal (no-op if undefined).
 
 ---
 
 ###### `actions`<sup>Required</sup> <a name="actions" id="awscdk-dynamodb-global-tables.IGlobalTable.grant.parameter.actions"></a>
 
 - *Type:* string
+
+The set of actions to allow (i.e. "dynamodb:PutItem", "dynamodb:GetItem", ...).
 
 ---
 
@@ -358,9 +381,16 @@ public grant(grantee: IGrantable, actions: string): Grant
 public grantReadData(grantee: IGrantable): Grant
 ```
 
+Permits an IAM principal all data read operations from this table: BatchGetItem, Query, GetItem, Scan, ConditionCheckItem, DescribeTable.
+
+Appropriate grants will also be added to the customer-managed KMS key
+if one was configured.
+
 ###### `grantee`<sup>Required</sup> <a name="grantee" id="awscdk-dynamodb-global-tables.IGlobalTable.grantReadData.parameter.grantee"></a>
 
 - *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+The principal to grant access to.
 
 ---
 
@@ -370,9 +400,16 @@ public grantReadData(grantee: IGrantable): Grant
 public grantReadWriteData(grantee: IGrantable): Grant
 ```
 
+Permits an IAM principal to all data read/write operations to this table. BatchGetItem, Query, GetItem, Scan, ConditionCheckItem, DescribeTable, PutItem.
+
+Appropriate grants will also be added to the customer-managed KMS key
+if one was configured.
+
 ###### `grantee`<sup>Required</sup> <a name="grantee" id="awscdk-dynamodb-global-tables.IGlobalTable.grantReadWriteData.parameter.grantee"></a>
 
 - *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+The principal to grant access to.
 
 ---
 
@@ -382,9 +419,16 @@ public grantReadWriteData(grantee: IGrantable): Grant
 public grantWriteData(grantee: IGrantable): Grant
 ```
 
+Permits an IAM principal all data write operations to this table: PutItem.
+
+Appropriate grants will also be added to the customer-managed KMS key
+if one was configured.
+
 ###### `grantee`<sup>Required</sup> <a name="grantee" id="awscdk-dynamodb-global-tables.IGlobalTable.grantWriteData.parameter.grantee"></a>
 
 - *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+The principal to grant access to.
 
 ---
 
