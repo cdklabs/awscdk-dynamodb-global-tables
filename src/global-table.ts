@@ -1,4 +1,4 @@
-import { IResource, RemovalPolicy, Resource, Stack } from 'aws-cdk-lib';
+import { IResource, RemovalPolicy, Resource, Stack, Token } from 'aws-cdk-lib';
 import * as ddb from 'aws-cdk-lib/aws-dynamodb';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
@@ -67,29 +67,16 @@ abstract class GlobalTableBase extends Resource implements IGlobalTable {
   }
 
   public grantReadData(identity: iam.IGrantable): iam.Grant {
-    return iam.Grant.addToPrincipal({
-      grantee: identity,
-      actions: perms.READ_DATA_ACTIONS.concat(perms.DESCRIBE_TABLE),
-      resourceArns: [this.tableArn],
-    });
+    return this.grant(identity, ...perms.READ_DATA_ACTIONS.concat(perms.DESCRIBE_TABLE));
   }
 
   public grantWriteData(grantee: iam.IGrantable): iam.Grant {
-    return iam.Grant.addToPrincipal({
-      grantee,
-      actions: perms.WRITE_DATA_ACTIONS.concat(perms.DESCRIBE_TABLE),
-      resourceArns: [this.tableArn],
-    });
+    return this.grant(grantee, ...perms.WRITE_DATA_ACTIONS.concat(perms.DESCRIBE_TABLE));
   }
 
   public grantReadWriteData(grantee: iam.IGrantable): iam.Grant {
-    return iam.Grant.addToPrincipal({
-      grantee,
-      actions: perms.READ_DATA_ACTIONS.concat(perms.WRITE_DATA_ACTIONS).concat(perms.DESCRIBE_TABLE),
-      resourceArns: [this.tableArn],
-    });
+    return this.grant(grantee, ...perms.READ_DATA_ACTIONS.concat(perms.WRITE_DATA_ACTIONS).concat(perms.DESCRIBE_TABLE));
   }
-
 }
 
 export interface GlobalTableProps {
@@ -104,6 +91,12 @@ export class GlobalTable extends GlobalTableBase {
     super(scope, id, {
       physicalName: props.tableName,
     });
+    if (props.tableName !== undefined &&
+      !Token.isUnresolved(props.tableName) &&
+      !/^[_a-zA-Z]+$/.test(props.tableName)) {
+      throw new Error('tableName must be non-empty and contain only letters and underscores, ' +
+      `got: '${props.tableName}'`);
+    }
     const resource = new ddb.CfnGlobalTable(this, 'Resource', {
       attributeDefinitions: [{
         attributeName: props.partitionKey.name,
