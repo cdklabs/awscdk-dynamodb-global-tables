@@ -9,7 +9,7 @@ export interface IGlobalTable extends IResource {
   /**
    * Adds an IAM policy statement associated with this table to an IAM
    * principal's policy.
-   * @param grantee The principal (no-op if undefined)
+   * @param grantee The principal
    * @param actions The set of actions to allow (i.e. "dynamodb:PutItem", "dynamodb:GetItem", ...)
    */
   grant(grantee: iam.IGrantable, ...actions: string[]): iam.Grant;
@@ -17,10 +17,6 @@ export interface IGlobalTable extends IResource {
   /**
    * Permits an IAM principal all data read operations from this table:
    * BatchGetItem, Query, GetItem, Scan, ConditionCheckItem, DescribeTable.
-   *
-   * Appropriate grants will also be added to the customer-managed KMS key
-   * if one was configured.
-   *
    * @param grantee The principal to grant access to
    */
   grantReadData(grantee: iam.IGrantable): iam.Grant;

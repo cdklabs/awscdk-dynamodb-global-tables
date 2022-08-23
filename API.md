@@ -111,9 +111,6 @@ public grantReadData(identity: IGrantable): Grant
 
 Permits an IAM principal all data read operations from this table: BatchGetItem, Query, GetItem, Scan, ConditionCheckItem, DescribeTable.
 
-Appropriate grants will also be added to the customer-managed KMS key
-if one was configured.
-
 ###### `identity`<sup>Required</sup> <a name="identity" id="awscdk-dynamodb-global-tables.GlobalTable.grantReadData.parameter.identity"></a>
 
 - *Type:* aws-cdk-lib.aws_iam.IGrantable
@@ -363,7 +360,7 @@ Adds an IAM policy statement associated with this table to an IAM principal's po
 
 - *Type:* aws-cdk-lib.aws_iam.IGrantable
 
-The principal (no-op if undefined).
+The principal.
 
 ---
 
@@ -382,9 +379,6 @@ public grantReadData(grantee: IGrantable): Grant
 ```
 
 Permits an IAM principal all data read operations from this table: BatchGetItem, Query, GetItem, Scan, ConditionCheckItem, DescribeTable.
-
-Appropriate grants will also be added to the customer-managed KMS key
-if one was configured.
 
 ###### `grantee`<sup>Required</sup> <a name="grantee" id="awscdk-dynamodb-global-tables.IGlobalTable.grantReadData.parameter.grantee"></a>
 
