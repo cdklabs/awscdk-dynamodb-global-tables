@@ -29,9 +29,8 @@ test('Create global table with partition key and default properties', () => {
       KeyType: 'HASH',
     }],
     Replicas: [{
-      Region: newstack.region,
+      Region: 'us-east-1',
     }],
-    TableName: 'default_name',
   });
 });
 

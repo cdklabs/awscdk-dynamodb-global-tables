@@ -1,6 +1,6 @@
 "use strict";
 
-// asset-input/test/cdk-test-integration/functions/functions.js
+// asset-input/test/cdk-test-integration/functions/read-item-function.js
 var AWS = require("aws-sdk");
 var TABLE_NAME = process.env.HELLO_TABLE_NAME;
 exports.handler = async (event, context) => {
@@ -8,13 +8,16 @@ exports.handler = async (event, context) => {
   try {
     var params = {
       TableName: TABLE_NAME,
-      Item: {
-        "id": { S: "id" },
-        "customer_name": { S: "Tianyi" }
+      Key: {
+        "id": { S: "id" }
       }
     };
-    await dbClient.putItem(params).promise();
-    console.log("success");
+    await dbClient.getItem(params, function(err, data) {
+      if (err)
+        console.log(err);
+      else
+        console.log(data);
+    }).promise();
   } catch (err) {
     console.error(err);
   }

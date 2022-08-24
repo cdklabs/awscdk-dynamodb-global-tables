@@ -5,14 +5,15 @@ exports.handler = async (event, context) => {
     try{
       var params = {
         TableName: TABLE_NAME,
-        Item: {
+        Key: {
           'id': { S: 'id'},
-          'customer_name': { S: 'Tianyi'},
         }
       };
-      await dbClient.putItem(params).promise();
-      console.log('success')
+      await dbClient.getItem(params, function(err, data) {
+        if (err) console.log(err);
+        else console.log(data);
+      }).promise();
     } catch (err) {
       console.error(err);
     }
-}
+}  

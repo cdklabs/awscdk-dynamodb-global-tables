@@ -40,20 +40,15 @@
                     ],
                     "replicas": [
                       {
-                        "region": "us-east-1"
-                      },
-                      {
-                        "region": "us-west-1"
-                      },
-                      {
-                        "region": "us-west-2"
+                        "region": {
+                          "Ref": "AWS::Region"
+                        }
                       }
                     ],
                     "billingMode": "PAY_PER_REQUEST",
                     "streamSpecification": {
                       "streamViewType": "KEYS_ONLY"
-                    },
-                    "tableName": "with_replica_table_name"
+                    }
                   }
                 },
                 "constructInfo": {
@@ -64,6 +59,179 @@
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.Resource",
+              "version": "2.35.0"
+            }
+          },
+          "write_into_ddb": {
+            "id": "write_into_ddb",
+            "path": "CdkTestIntegrationStack/write_into_ddb",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "CdkTestIntegrationStack/write_into_ddb/ServiceRole",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "CdkTestIntegrationStack/write_into_ddb/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.35.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "CdkTestIntegrationStack/write_into_ddb/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "CdkTestIntegrationStack/write_into_ddb/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "dynamodb:BatchGetItem",
+                                    "dynamodb:ConditionCheckItem",
+                                    "dynamodb:DescribeTable",
+                                    "dynamodb:GetItem",
+                                    "dynamodb:PutItem",
+                                    "dynamodb:Query",
+                                    "dynamodb:Scan"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::GetAtt": [
+                                      "TableCD117FA1",
+                                      "Arn"
+                                    ]
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "writeintoddbServiceRoleDefaultPolicyEF477B5A",
+                            "roles": [
+                              {
+                                "Ref": "writeintoddbServiceRole02B3B3FC"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.35.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.35.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.35.0"
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "CdkTestIntegrationStack/write_into_ddb/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "CdkTestIntegrationStack/write_into_ddb/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.35.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "CdkTestIntegrationStack/write_into_ddb/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.35.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.35.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "CdkTestIntegrationStack/write_into_ddb/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "f8a86b2d89191c57dda678e8bd22601310ce38ffe23b0e83ddf5b3def0a6c8ed.zip"
+                    },
+                    "role": {
+                      "Fn::GetAtt": [
+                        "writeintoddbServiceRole02B3B3FC",
+                        "Arn"
+                      ]
+                    },
+                    "environment": {
+                      "variables": {
+                        "HELLO_TABLE_NAME": {
+                          "Ref": "TableCD117FA1"
+                        },
+                        "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+                      }
+                    },
+                    "functionName": "write_into_ddb",
+                    "handler": "index.handler",
+                    "runtime": "nodejs14.x"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.35.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
               "version": "2.35.0"
             }
           },
@@ -132,6 +300,7 @@
                                     "dynamodb:ConditionCheckItem",
                                     "dynamodb:DescribeTable",
                                     "dynamodb:GetItem",
+                                    "dynamodb:PutItem",
                                     "dynamodb:Query",
                                     "dynamodb:Scan"
                                   ],
@@ -207,7 +376,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "e9e172bd46391f9f5b3f92dccb11ae69492145683656b1708675cac03f70b1b6.zip"
+                      "s3Key": "27bf22d9674401e6052aef5ebc266f87a412dbfe5f4a22d318309854f0b95697.zip"
                     },
                     "role": {
                       "Fn::GetAtt": [

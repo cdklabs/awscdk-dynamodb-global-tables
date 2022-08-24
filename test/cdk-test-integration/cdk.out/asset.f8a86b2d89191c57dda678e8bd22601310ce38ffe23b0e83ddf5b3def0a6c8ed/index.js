@@ -1,6 +1,6 @@
 "use strict";
 
-// asset-input/test/cdk-test-integration/functions/functions.js
+// asset-input/test/cdk-test-integration/functions/put-item-function.js
 var AWS = require("aws-sdk");
 var TABLE_NAME = process.env.HELLO_TABLE_NAME;
 console.log(TABLE_NAME);
