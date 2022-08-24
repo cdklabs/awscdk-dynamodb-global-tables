@@ -11,5 +11,14 @@ const project = new awscdk.AwsCdkConstructLibrary({
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   // devDeps: [],             /* Build dependencies for this module. */
   // packageName: undefined,  /* The "name" in package.json. */
+  pullRequestTemplateContents: [
+    '',
+    '----',
+    '',
+    '* [ ] This PR includes unit tests to verify the change.',
+    '* [ ] This PR adds to the cdk-test-integration CDK app to verify the change in this PR.',
+    '* [ ] Did you run `cdk deploy` on the cdk-test-integration CDK app?',
+  ],
 });
+
 project.synth();
