@@ -73,7 +73,6 @@ abstract class GlobalTableBase extends Resource implements IGlobalTable {
   public grantReadWriteData(grantee: iam.IGrantable): iam.Grant {
     return this.grant(grantee, ...perms.READ_DATA_ACTIONS.concat(perms.WRITE_DATA_ACTIONS).concat(perms.DESCRIBE_TABLE));
   }
-
 }
 
 export interface GlobalTableProps {
