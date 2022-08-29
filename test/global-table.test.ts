@@ -46,9 +46,6 @@ test('Create global table with partition key and specified replica, tablename', 
       type: ddb.AttributeType.STRING,
     },
     replicas: [{
-      region: newstack.region,
-    },
-    {
       region: 'us-west-1',
     },
     {
@@ -69,9 +66,6 @@ test('Create global table with partition key and specified replica, tablename', 
       KeyType: 'HASH',
     }],
     Replicas: [{
-      Region: newstack.region,
-    },
-    {
       Region: 'us-west-1',
     },
     {

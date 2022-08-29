@@ -1,4 +1,4 @@
-import { IResource, RemovalPolicy, Resource, Token } from 'aws-cdk-lib';
+import { IResource, RemovalPolicy, Resource, Stack, Token } from 'aws-cdk-lib';
 import * as ddb from 'aws-cdk-lib/aws-dynamodb';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
@@ -57,6 +57,7 @@ abstract class GlobalTableBase extends Resource implements IGlobalTable {
       actions,
       resourceArns: [
         this.tableArn,
+        ...this.regionalArns,
       ],
       scope: this,
     });
@@ -93,19 +94,27 @@ export class GlobalTable extends GlobalTableBase {
     super(scope, id, {
       physicalName: props.tableName,
     });
+    // add validations for tableName
     if (props.tableName !== undefined &&
       !Token.isUnresolved(props.tableName) &&
       !/^[_a-zA-Z]+$/.test(props.tableName)) {
       throw new Error('tableName must be non-empty and contain only letters and underscores, ' +
       `got: '${props.tableName}'`);
     }
-    // add current region into table props replicas ?, so the default value would be the current(stack) region
-    this.replicateregions.push({ region: this.env.region });//Token.asString(this.env.region) });
-    // add possible multiple replicas
     if (props.replicas !== undefined) {
       props.replicas?.forEach((eachRegion) => {
         this.replicateregions.push({ region: eachRegion.region });
+        // add validations for replicas
+        if (eachRegion.region === Stack.of(scope).region) {
+          throw new Error('replicate region cannot be the same as stack region' +
+        `got: '${eachRegion.region}'`);
+        };
       });
+      // validation passed so then add the stack's region
+      this.replicateregions.push({ region: this.env.region });
+    } else {
+      // add current region into table props replicas ?, so the default value would be the current(stack) region
+      this.replicateregions.push({ region: this.env.region });
     }
     const resource = new ddb.CfnGlobalTable(this, 'Resource', {
       attributeDefinitions: [{
@@ -120,7 +129,7 @@ export class GlobalTable extends GlobalTableBase {
       streamSpecification: {
         streamViewType: 'KEYS_ONLY',
       },
-      replicas: props.replicas ?? this.replicateregions.map((regions) => {
+      replicas: this.replicateregions.map((regions) => {
         return {
           region: regions.region,
         };
@@ -135,6 +144,16 @@ export class GlobalTable extends GlobalTableBase {
         resourceName: this.physicalName,
       },
     );
+    // everytime loop through the replicateregions, put current into the regionalArns
+    this.replicateregions.forEach((eachRegion) => {
+      this.regionalArns.push(Stack.of(this).formatArn({
+        region: eachRegion.region,
+        service: 'dynamodb',
+        resource: 'table',
+        resourceName: this.physicalName,
+      }));
+    });
+    // everytime loop through the replicateregions, put current into the regionalArns
     this.tableName = this.getResourceNameAttribute(resource.ref);
   }
 }
