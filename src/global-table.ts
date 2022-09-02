@@ -46,9 +46,34 @@ export interface IGlobalTable extends IResource {
 
 }
 
+export enum TableEncryption {
+  /**
+   * Server-side KMS encryption with a master key owned by AWS.
+   */
+  DEFAULT = 'AWS_OWNED',
+
+  /**
+   * Server-side KMS encryption with a customer master key managed by customer.
+   * If `encryptionKey` is specified, this key will be used, otherwise, one will be defined.
+   *
+   * > **NOTE**: if `encryptionKey` is not specified and the `Table` construct creates
+   * > a KMS key for you, the key will be created with default permissions. If you are using
+   * > CDKv2, these permissions will be sufficient to enable the key for use with DynamoDB tables.
+   * > If you are using CDKv1, make sure the feature flag `@aws-cdk/aws-kms:defaultKeyPolicies`
+   * > is set to `true` in your `cdk.json`.
+   */
+  CUSTOMER_MANAGED = 'CUSTOMER_MANAGED',
+
+  /**
+   * Server-side KMS encryption with a master key managed by AWS.
+   */
+  AWS_MANAGED = 'AWS_MANAGED',
+}
+
 abstract class GlobalTableBase extends Resource implements IGlobalTable {
   public abstract readonly tableArn: string;
   public abstract readonly tableName: string;
+  public abstract readonly encryption: TableEncryption;
 
   protected readonly regionalArns = new Array<string>();
   public grant(grantee: iam.IGrantable, ...actions: string[]): iam.Grant {
@@ -80,6 +105,7 @@ export interface GlobalTableProps {
   readonly partitionKey: ddb.Attribute;
   readonly replicas?: Replica[];
   readonly tableName?: string;
+  readonly encryption?: TableEncryption;
 }
 
 export interface Replica {
@@ -90,6 +116,9 @@ export class GlobalTable extends GlobalTableBase {
   public readonly tableArn: string;
   public readonly tableName: string;
   public readonly replicateregions: Replica[] = [];
+  public readonly encryption: TableEncryption = TableEncryption.DEFAULT;
+  // by default, it is set to fasle to have serverside encrption
+  public readonly serverSideEncryption: boolean = false;
   constructor(scope: Construct, id: string, props: GlobalTableProps) {
     super(scope, id, {
       physicalName: props.tableName,
@@ -116,6 +145,26 @@ export class GlobalTable extends GlobalTableBase {
       // add current region into table props replicas ?, so the default value would be the current(stack) region
       this.replicateregions.push({ region: this.env.region });
     }
+
+    // if encryption is specified
+    if (props.encryption !== undefined) {
+      // user can also specify the encryption type as defaut (check readme part)
+      if (props.encryption === TableEncryption.DEFAULT) {
+        // sse become false to enable default serverside encryption
+        this.serverSideEncryption = false;
+      }
+      if (props.encryption === TableEncryption.AWS_MANAGED) {
+        this.serverSideEncryption = true;
+      }
+      if (props.encryption === TableEncryption.CUSTOMER_MANAGED) {
+        this.serverSideEncryption = true;
+      }
+    } else {
+      // sse become false to enable default serverside encryption
+      this.serverSideEncryption = false;
+    }
+
+
     const resource = new ddb.CfnGlobalTable(this, 'Resource', {
       attributeDefinitions: [{
         attributeName: props.partitionKey.name,
@@ -126,6 +175,11 @@ export class GlobalTable extends GlobalTableBase {
         attributeName: props.partitionKey.name,
         keyType: 'HASH',
       }],
+      // need to modify as changed by user sepcifed or not
+      sseSpecification: {
+        sseEnabled: this.serverSideEncryption,
+        sseType: props.encryption,
+      },
       streamSpecification: {
         streamViewType: 'KEYS_ONLY',
       },
@@ -136,6 +190,8 @@ export class GlobalTable extends GlobalTableBase {
       }),
       tableName: this.physicalName,
     });
+
+
     resource.applyRemovalPolicy(RemovalPolicy.DESTROY);
     this.tableArn = this.getResourceArnAttribute(resource.attrArn,
       {
@@ -146,12 +202,14 @@ export class GlobalTable extends GlobalTableBase {
     );
     // everytime loop through the replicateregions, put current into the regionalArns
     this.replicateregions.forEach((eachRegion) => {
-      this.regionalArns.push(Stack.of(this).formatArn({
-        region: eachRegion.region,
-        service: 'dynamodb',
-        resource: 'table',
-        resourceName: this.physicalName,
-      }));
+      if (eachRegion.region !== Stack.of(scope).region) {
+        this.regionalArns.push(Stack.of(this).formatArn({
+          region: eachRegion.region,
+          service: 'dynamodb',
+          resource: 'table',
+          resourceName: this.getResourceNameAttribute(resource.ref),
+        }));
+      }
     });
     // everytime loop through the replicateregions, put current into the regionalArns
     this.tableName = this.getResourceNameAttribute(resource.ref);

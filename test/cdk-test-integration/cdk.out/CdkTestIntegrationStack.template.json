@@ -104,31 +104,14 @@
            {
             "Ref": "AWS::Partition"
            },
-           ":dynamodb:",
-           {
-            "Ref": "AWS::Region"
-           },
-           ":",
-           {
-            "Ref": "AWS::AccountId"
-           },
-           ":table/"
-          ]
-         ]
-        },
-        {
-         "Fn::Join": [
-          "",
-          [
-           "arn:",
-           {
-            "Ref": "AWS::Partition"
-           },
            ":dynamodb:us-west-1:",
            {
             "Ref": "AWS::AccountId"
            },
-           ":table/"
+           ":table/",
+           {
+            "Ref": "TableCD117FA1"
+           }
           ]
          ]
         },
@@ -144,7 +127,10 @@
            {
             "Ref": "AWS::AccountId"
            },
-           ":table/"
+           ":table/",
+           {
+            "Ref": "TableCD117FA1"
+           }
           ]
          ]
         }
@@ -267,31 +253,14 @@
            {
             "Ref": "AWS::Partition"
            },
-           ":dynamodb:",
-           {
-            "Ref": "AWS::Region"
-           },
-           ":",
-           {
-            "Ref": "AWS::AccountId"
-           },
-           ":table/"
-          ]
-         ]
-        },
-        {
-         "Fn::Join": [
-          "",
-          [
-           "arn:",
-           {
-            "Ref": "AWS::Partition"
-           },
            ":dynamodb:us-west-1:",
            {
             "Ref": "AWS::AccountId"
            },
-           ":table/"
+           ":table/",
+           {
+            "Ref": "TableCD117FA1"
+           }
           ]
          ]
         },
@@ -307,7 +276,10 @@
            {
             "Ref": "AWS::AccountId"
            },
-           ":table/"
+           ":table/",
+           {
+            "Ref": "TableCD117FA1"
+           }
           ]
          ]
         }
