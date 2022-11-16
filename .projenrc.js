@@ -19,6 +19,12 @@ const project = new awscdk.AwsCdkConstructLibrary({
     '* [ ] This PR adds to the cdk-test-integration CDK app to verify the change in this PR.',
     '* [ ] Did you run `cdk deploy` on the cdk-test-integration CDK app?',
   ],
+  autoApproveOptions: {
+    allowedUsernames: ['aws-cdk-automation'],
+    secret: 'GITHUB_TOKEN',
+  },
+  autoApproveUpgrades: true,
+  projenUpgradeSecret: 'PROJEN_GITHUB_TOKEN',
 });
 
 project.synth();
