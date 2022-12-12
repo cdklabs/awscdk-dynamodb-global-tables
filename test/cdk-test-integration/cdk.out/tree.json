@@ -40,12 +40,21 @@
                     ],
                     "replicas": [
                       {
+                        "region": "us-west-1"
+                      },
+                      {
+                        "region": "us-west-2"
+                      },
+                      {
                         "region": {
                           "Ref": "AWS::Region"
                         }
                       }
                     ],
-                    "billingMode": "PAY_PER_REQUEST"
+                    "billingMode": "PAY_PER_REQUEST",
+                    "streamSpecification": {
+                      "streamViewType": "KEYS_ONLY"
+                    }
                   }
                 },
                 "constructInfo": {
@@ -129,12 +138,52 @@
                                     "dynamodb:Scan"
                                   ],
                                   "Effect": "Allow",
-                                  "Resource": {
-                                    "Fn::GetAtt": [
-                                      "TableCD117FA1",
-                                      "Arn"
-                                    ]
-                                  }
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "TableCD117FA1",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "arn:",
+                                          {
+                                            "Ref": "AWS::Partition"
+                                          },
+                                          ":dynamodb:us-west-1:",
+                                          {
+                                            "Ref": "AWS::AccountId"
+                                          },
+                                          ":table/",
+                                          {
+                                            "Ref": "TableCD117FA1"
+                                          }
+                                        ]
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "arn:",
+                                          {
+                                            "Ref": "AWS::Partition"
+                                          },
+                                          ":dynamodb:us-west-2:",
+                                          {
+                                            "Ref": "AWS::AccountId"
+                                          },
+                                          ":table/",
+                                          {
+                                            "Ref": "TableCD117FA1"
+                                          }
+                                        ]
+                                      ]
+                                    }
+                                  ]
                                 }
                               ],
                               "Version": "2012-10-17"
@@ -302,12 +351,52 @@
                                     "dynamodb:Scan"
                                   ],
                                   "Effect": "Allow",
-                                  "Resource": {
-                                    "Fn::GetAtt": [
-                                      "TableCD117FA1",
-                                      "Arn"
-                                    ]
-                                  }
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "TableCD117FA1",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "arn:",
+                                          {
+                                            "Ref": "AWS::Partition"
+                                          },
+                                          ":dynamodb:us-west-1:",
+                                          {
+                                            "Ref": "AWS::AccountId"
+                                          },
+                                          ":table/",
+                                          {
+                                            "Ref": "TableCD117FA1"
+                                          }
+                                        ]
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "arn:",
+                                          {
+                                            "Ref": "AWS::Partition"
+                                          },
+                                          ":dynamodb:us-west-2:",
+                                          {
+                                            "Ref": "AWS::AccountId"
+                                          },
+                                          ":table/",
+                                          {
+                                            "Ref": "TableCD117FA1"
+                                          }
+                                        ]
+                                      ]
+                                    }
+                                  ]
                                 }
                               ],
                               "Version": "2012-10-17"

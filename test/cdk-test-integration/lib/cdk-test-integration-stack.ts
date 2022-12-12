@@ -9,12 +9,17 @@ import { GlobalTable } from '../../../src';
 export class CdkTestIntegrationStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
-
     const my_table = new GlobalTable(this, 'Table', {
       partitionKey: {
         name: 'id',
         type: ddb.AttributeType.STRING,
       },
+      replicas: [{
+        region: 'us-west-1',
+      },
+      {
+        region: 'us-west-2',
+      }],
     });
     const write_function_name = 'write_into_ddb';
     const my_write_function = new NodejsFunction.NodejsFunction(this, write_function_name, {

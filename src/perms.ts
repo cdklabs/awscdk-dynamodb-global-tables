@@ -12,7 +12,10 @@ export const KEY_READ_ACTIONS = [
 ];
 
 export const WRITE_DATA_ACTIONS = [
+  //'dynamodb:BatchWriteItem',
   'dynamodb:PutItem',
+  //'dynamodb:UpdateItem',
+  //'dynamodb:DeleteItem',
 ];
 export const KEY_WRITE_ACTIONS = [
   'kms:Encrypt',
