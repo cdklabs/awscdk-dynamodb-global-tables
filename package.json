@@ -1,5 +1,6 @@
 {
   "name": "awscdk-dynamodb-global-tables",
+  "description": "L2 Construct Library for DynamoDB Global Tables",
   "repository": {
     "type": "git",
     "url": "https://github.com/cdklabs/awscdk-dynamodb-global-tables.git"
@@ -29,8 +30,7 @@
     "projen": "npx projen"
   },
   "author": {
-    "name": "Tianyi-W",
-    "email": "tianyiwu@amazon.com",
+    "name": "Amazon Web Services",
     "organization": false
   },
   "devDependencies": {
@@ -108,7 +108,7 @@
     }
   },
   "types": "lib/index.d.ts",
-  "stability": "stable",
+  "stability": "experimental",
   "jsii": {
     "outdir": "dist",
     "targets": {},
