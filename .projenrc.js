@@ -20,11 +20,14 @@ const project = new awscdk.AwsCdkConstructLibrary({
     '* [ ] Did you run `cdk deploy` on the cdk-test-integration CDK app?',
   ],
   autoApproveOptions: {
-    allowedUsernames: ['aws-cdk-automation'],
+    allowedUsernames: ['cdklabs-automation'],
     secret: 'GITHUB_TOKEN',
   },
   autoApproveUpgrades: true,
   projenUpgradeSecret: 'PROJEN_GITHUB_TOKEN',
 });
+
+// https://cwe.mitre.org/data/definitions/1321.html
+project.package.addPackageResolutions('json5@^2.2.2');
 
 project.synth();
