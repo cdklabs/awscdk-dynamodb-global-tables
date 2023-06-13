@@ -1,10 +1,11 @@
-const { awscdk } = require('projen');
+import { awscdk } from 'projen';
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Tianyi-W',
   authorAddress: 'tianyiwu@amazon.com',
   cdkVersion: '2.35.0',
   defaultReleaseBranch: 'main',
   name: 'awscdk-dynamodb-global-tables',
+  projenrcTs: true,
   repositoryUrl: 'https://github.com/cdklabs/awscdk-dynamodb-global-tables.git',
 
   // deps: [],                /* Runtime dependencies of this module. */
@@ -24,7 +25,6 @@ const project = new awscdk.AwsCdkConstructLibrary({
     secret: 'GITHUB_TOKEN',
   },
   autoApproveUpgrades: true,
-  projenUpgradeSecret: 'PROJEN_GITHUB_TOKEN',
 });
 
 // https://cwe.mitre.org/data/definitions/1321.html
